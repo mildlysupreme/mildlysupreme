@@ -1,31 +1,29 @@
 # Mildlysupreme
 
-Source of [mildlysupreme.com](https://www.mildlysupreme.com), the personal site of Tim de Vries. Built on the [shud.in](https://github.com/shuding/shud.in) template by Shu Ding.
+Source of [mildlysupreme.com](https://www.mildlysupreme.com), the personal site of Tim de Vries. A static [Astro](https://astro.build) site: plain Markdown and one stylesheet, no JavaScript sent to visitors. Pushing to `main` deploys to production on Vercel.
 
-- Next.js v15
-- MDX Rust & Shiki inside React Server Components
-- Tailwind CSS v4
-- `<ViewTransition/>` from React Experimental
+## Writing a post
 
-## Writing an article
+Add a Markdown file to `src/content/thoughts/`. The file name becomes the URL, so `my-post.md` is published at `/thoughts/my-post`.
 
-Add an `.mdx` file to `app/thoughts/_articles/`. The file name becomes the URL, so `my-article.mdx` is published at `/thoughts/my-article`. Start the file with:
+```md
+---
+title: My post
+date: 2026-10-18
+description: One or two sentences for search results and link previews.
+---
 
-```mdx
-export const metadata = {
-  title: 'My article',
-  date: '2026.10.18',
-  description: 'One or two sentences for search results and link previews.',
-}
-
-# My article
-
-Text goes here.
+Text goes here. The title is shown above it automatically.
 ```
 
-Images go in `assets/images/` and are referenced by file name: `![Alt text](my-image.png)`.
+- **Images:** put them in `src/content/thoughts/images/` and link them as `![Alt text](./images/my-image.png)`. They're resized and compressed at build time.
+- **Drafts:** add `draft: true` to keep a post off the live site. It still shows when running locally.
 
-The article shows up on `/thoughts` (newest first) and in `/sitemap.xml` automatically, and gets its own share image with the title and date for link previews on LinkedIn and X. Pushing to `main` deploys to production on Vercel.
+New posts appear on `/thoughts` (newest first), in `/sitemap.xml` and in the RSS feed at `/rss.xml` automatically.
+
+## Editing pages
+
+About is `src/pages/index.md` and Projects is `src/pages/projects.md`, both plain Markdown. Styles live in `src/styles/global.css`, and the page frame with the nav and the link-preview tags is `src/layouts/Base.astro`.
 
 ## Running locally
 

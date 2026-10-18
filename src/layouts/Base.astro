@@ -1,0 +1,83 @@
+---
+import '../styles/global.css'
+import { author, siteDescription, siteName } from '../site'
+
+interface Props {
+  title?: string
+  description?: string
+  type?: 'website' | 'article'
+  publishedTime?: Date
+}
+
+const {
+  title,
+  description = siteDescription,
+  type = 'website',
+  publishedTime,
+} = Astro.props
+
+const pageTitle = title ? `${title} - ${author}` : siteName
+const ogTitle = title ? (type === 'article' ? title : pageTitle) : author
+// Pages build to /name.html and are served at /name (cleanUrls in vercel.json).
+const path = Astro.url.pathname.replace(/(\/index)?\.html$/, '') || '/'
+const canonical = new URL(path, Astro.site).href.replace(/\/$/, '')
+const ogImage = new URL('/og.png', Astro.site)
+
+const nav = [
+  { href: '/', label: 'About' },
+  { href: '/thoughts', label: 'Thoughts' },
+  { href: '/projects', label: 'Projects' },
+]
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(href + '/')
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#fcfcfc" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.ico" sizes="16x16" />
+    <link rel="icon" href="/icon.png" type="image/png" sizes="128x128" />
+    <link rel="alternate" type="application/rss+xml" title={siteName} href="/rss.xml" />
+    <link rel="preload" href="/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    {publishedTime && (
+      <meta property="article:published_time" content={publishedTime.toISOString()} />
+    )}
+    {type === 'article' && <meta property="article:author" content={author} />}
+  </head>
+  <body>
+    <div class="fade-out"></div>
+    <div class="shell">
+      <nav>
+        <ul>
+          {nav.map(({ href, label }) => (
+            <li class:list={{ active: isActive(href) }}>
+              <a href={href} draggable="false">{label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <main>
+        <article>
+          <slot />
+        </article>
+      </main>
+    </div>
+  </body>
+</html>
