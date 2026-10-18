@@ -420,9 +420,34 @@ time {
 }
 
 .categories .count,
-.back,
 .source {
   color: var(--grey-300);
+}
+
+/* Breadcrumb at the top of a category page: Nice things / Architecture */
+.crumbs {
+  display: flex;
+  gap: 0.375rem;
+  align-items: baseline;
+  font-size: 14px;
+  line-height: 1.5rem;
+}
+
+.crumbs a {
+  color: var(--grey-300);
+  text-decoration: none;
+}
+
+.crumbs a:hover {
+  color: var(--grey-600);
+}
+
+.crumbs span {
+  color: var(--grey-200);
+}
+
+.crumbs h1 {
+  margin: 0;
 }
 
 .thing + .thing {
@@ -449,14 +474,6 @@ time {
   margin-top: 0.75rem;
   font-size: 12px;
   line-height: 1.25rem;
-}
-
-.back {
-  text-decoration: none;
-}
-
-.back:hover {
-  color: var(--grey-600);
 }
 
 /* Cross-fade between pages, no JavaScript needed. */

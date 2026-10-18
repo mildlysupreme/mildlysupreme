@@ -17,9 +17,10 @@ const { title, items } = category.data
 ---
 
 <Base title={`${title} - Nice things`} description={`${title} I like, picked by Tim de Vries.`}>
-  <header>
+  <header class="crumbs">
+    <a href="/nice-things">Nice things</a>
+    <span aria-hidden="true">/</span>
     <h1>{title}</h1>
-    <a href="/nice-things" class="back">Nice things</a>
   </header>
   {items.length === 0 ? (
     <p>Nothing here yet.</p>
