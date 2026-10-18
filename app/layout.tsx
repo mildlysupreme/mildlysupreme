@@ -8,6 +8,7 @@ import localFont from 'next/font/local'
 import 'katex/dist/katex.min.css'
 
 import Navbar from '@/components/navbar'
+import { siteUrl } from '@/lib/site'
 import './globals.css'
 
 const sans = localFont({
@@ -29,10 +30,13 @@ const mono = localFont({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
     template: '%s - Tim de Vries',
     default: 'Tim de Vries',
   },
+  description:
+    'Tim de Vries is a product-minded entrepreneur building a collective of AI experts, designers and engineers who help companies ship next-generation products.',
 }
 
 export const viewport: Viewport = {

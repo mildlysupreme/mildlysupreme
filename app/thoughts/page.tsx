@@ -1,41 +1,23 @@
-import { promises as fs } from 'fs'
 import Link from 'next/link'
-import path from 'path'
+
+import { getArticles } from '@/lib/articles'
 
 export const metadata = {
   title: 'Thoughts',
+  description:
+    'Articles by Tim de Vries on AI, product, design and building ventures.',
 }
 
-// In the future we can have a pagination here e.g. /1/*.mdx
-const articlesDirectory = path.join(
-  process.cwd(),
-  'app',
-  'thoughts',
-  '_articles'
-)
-
 export default async function Page() {
-  const articles = await fs.readdir(articlesDirectory)
+  const items = await getArticles()
 
-  // const items = []
-  // for (const article of articles) {
-  //   if (!article.endsWith('.mdx')) continue
-  //   const module = await import('./_articles/' + article)
-
-  //   if (!module.metadata) throw new Error('Missing `metadata` in ' + article)
-
-  //   items.push({
-  //     slug: article.replace(/\.mdx$/, ''),
-  //     title: module.metadata.title,
-  //     date: module.metadata.date || '-',
-  //     sort: Number(module.metadata.date?.replaceAll('.', '') || 0),
-  //   })
-  // }
-  // items.sort((a, b) => b.sort - a.sort)
+  if (items.length === 0) {
+    return <p>The first articles are on their way.</p>
+  }
 
   return (
     <div>
-      {/* <ul>
+      <ul>
         {items.map((item) => (
           <li key={item.slug} className='font-medium'>
             <Link
@@ -53,7 +35,7 @@ export default async function Page() {
             </Link>
           </li>
         ))}
-      </ul> */}
+      </ul>
     </div>
   )
 }

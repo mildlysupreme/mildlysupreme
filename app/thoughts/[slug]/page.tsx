@@ -1,6 +1,9 @@
-import { promises as fs } from 'fs'
-import path from 'path'
 import cn from 'clsx'
+
+import { getArticleSlugs } from '@/lib/articles'
+
+// Only the articles in _articles exist; any other slug is a 404.
+export const dynamicParams = false
 
 export default async function Page(props: {
   params: Promise<{
@@ -23,17 +26,9 @@ export default async function Page(props: {
 }
 
 export async function generateStaticParams() {
-  const articles = await fs.readdir(
-    path.join(process.cwd(), 'app', 'thoughts', '_articles')
-  )
+  const slugs = await getArticleSlugs()
 
-  return articles
-    .filter((name) => name.endsWith('.mdx'))
-    .map((name) => ({
-      params: {
-        slug: name.replace(/\.mdx$/, ''),
-      },
-    }))
+  return slugs.map((slug) => ({ slug }))
 }
 
 export async function generateMetadata(props: {
