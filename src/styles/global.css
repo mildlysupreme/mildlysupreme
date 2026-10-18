@@ -1,0 +1,443 @@
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/InterVariable.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lora';
+  src: url('/fonts/LoraItalicVariable.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Iosevka';
+  src: url('/fonts/IosevkaFixedCurly-ExtendedMedium.woff2') format('woff2');
+  font-display: swap;
+}
+
+:root {
+  --background: #fcfcfc;
+  --grey-50: #ebedef;
+  --grey-100: #d8dbdf;
+  --grey-200: #b3b9c1;
+  --grey-300: #8c95a1;
+  --grey-400: #697381;
+  --grey-500: #4a515b;
+  --grey-600: #3b4149;
+  --grey-700: #2b3035;
+  --grey-800: #1e2125;
+  --border: #d8dbdfb3;
+
+  --sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', sans-serif;
+  --serif: 'Lora', Baskerville, Georgia, Cambria, 'Times New Roman', serif;
+  --mono: 'Iosevka', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    monospace;
+  --opsz: 'opsz' 32;
+
+  /* Vertical rhythm and page gutter, growing with the screen. */
+  --space: 1.75rem;
+  --gutter: 1.5rem;
+  color-scheme: only light;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: 2.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 3.5rem;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-x: hidden;
+  touch-action: manipulation;
+}
+
+body {
+  margin: 0;
+  padding: var(--gutter);
+  background: var(--background);
+  color: var(--grey-500);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.5rem;
+  font-synthesis: none;
+  font-feature-settings: 'cpsp' 1, 'cv01', 'cv03', 'cv04', 'calt', 'ss03',
+    'liga', 'ordn';
+  font-variation-settings: 'wght' 440, var(--opsz);
+  font-optical-sizing: auto;
+  letter-spacing: 0.0085em;
+  word-spacing: -0.04em;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (min-width: 640px) {
+  body {
+    font-size: 15px;
+    line-height: 1.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+::selection {
+  background: #95a5ac40;
+  color: #485a74;
+}
+
+/* Layout: nav on the left, content to its right, a hairline between. */
+
+.shell {
+  display: flex;
+  flex-direction: column;
+}
+
+nav {
+  width: 100%;
+  font-family: var(--serif);
+  font-style: italic;
+  letter-spacing: -0.006em;
+}
+
+nav ul {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin: 0 0 1.5rem;
+  padding: 0;
+  list-style: none;
+  text-align: right;
+  text-transform: lowercase;
+}
+
+nav li {
+  margin: 0 -0.5rem;
+}
+
+nav a {
+  display: inline-block;
+  width: 100%;
+  padding: 0 0.5rem;
+  color: var(--grey-300);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+nav a:hover {
+  color: var(--grey-600);
+}
+
+nav .active a {
+  color: var(--grey-800);
+}
+
+main {
+  position: relative;
+  flex: 1;
+  max-width: 42rem;
+  contain: inline-size;
+  hanging-punctuation: first allow-end last;
+}
+
+main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+  opacity: 0.5;
+}
+
+article {
+  padding-top: 1.5rem;
+  view-transition-name: content;
+}
+
+/* On phones the top of the page fades out under the status bar. */
+.fade-out {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 30;
+  width: 100%;
+  height: var(--gutter);
+  pointer-events: none;
+  background: linear-gradient(to bottom, #fcfcfc, #fcfcfc00);
+}
+
+@media (min-width: 420px) {
+  .shell {
+    flex-direction: row;
+  }
+
+  nav {
+    flex: none;
+    width: auto;
+    min-width: 4rem;
+    margin-right: var(--gutter);
+    white-space: nowrap;
+  }
+
+  nav ul {
+    display: block;
+    position: sticky;
+    top: var(--gutter);
+    margin: 0;
+  }
+
+  main::before {
+    left: 0;
+    right: auto;
+    width: 1px;
+    height: 100%;
+    opacity: 1;
+  }
+
+  article {
+    padding-top: 0;
+    padding-left: var(--gutter);
+  }
+}
+
+@media (min-width: 640px) {
+  .fade-out {
+    display: none;
+  }
+}
+
+/* Content */
+
+h1,
+h2,
+h3 {
+  margin: 3.5rem 0 var(--space);
+  color: var(--grey-600);
+  font-size: inherit;
+  font-variation-settings: 'wght' 600, var(--opsz);
+  text-wrap: balance;
+}
+
+h1 {
+  margin-top: 0;
+}
+
+p,
+ul,
+ol,
+pre,
+blockquote,
+figure,
+table {
+  margin: var(--space) 0 0;
+}
+
+header {
+  margin-bottom: var(--space);
+}
+
+header h1 {
+  margin-bottom: 0;
+}
+
+header + p {
+  margin-top: 0;
+}
+
+ul,
+ol {
+  padding-left: 1.25rem;
+}
+
+li {
+  padding-left: 0.375rem;
+}
+
+li::marker {
+  color: var(--grey-200);
+}
+
+a {
+  color: inherit;
+  overflow-wrap: break-word;
+  text-decoration: underline;
+  text-decoration-color: var(--grey-300);
+  text-decoration-thickness: from-font;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  text-decoration-color: var(--grey-600);
+}
+
+strong,
+b {
+  font-variation-settings: 'wght' 640, var(--opsz);
+  font-weight: normal;
+}
+
+em,
+i,
+blockquote {
+  font-family: var(--serif);
+  font-style: italic;
+  letter-spacing: -0.006em;
+}
+
+blockquote {
+  margin-left: calc(var(--gutter) * -1);
+  padding-left: var(--gutter);
+  margin-right: 0;
+  color: var(--grey-400);
+  box-shadow: 1px 0 0 var(--grey-500) inset;
+}
+
+blockquote p:first-child {
+  margin-top: 0;
+}
+
+hr {
+  width: 6rem;
+  margin: 3.5rem 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin-top: var(--space);
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.92em;
+  word-spacing: -0.15em;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 0.875rem 1.25rem;
+  background-color: #f7f7f7 !important;
+  line-height: 1.45rem;
+}
+
+time {
+  color: var(--grey-300);
+}
+
+/* Post list with dotted leaders between title and date. */
+
+.posts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.posts li {
+  padding: 0;
+  font-variation-settings: 'wght' 500, var(--opsz);
+}
+
+.posts a {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  text-decoration: none;
+}
+
+.posts .title {
+  color: var(--grey-500);
+}
+
+.posts .leaders {
+  flex: 1;
+  height: 1em;
+  overflow: hidden;
+  color: var(--grey-100);
+  font-size: 0.875rem;
+  letter-spacing: 6px;
+  line-height: 1;
+  text-align: end;
+  word-wrap: break-word;
+}
+
+.posts .leaders::after {
+  content: '······································································';
+}
+
+.posts time {
+  align-self: flex-start;
+  color: var(--grey-200);
+  font-variant-numeric: tabular-nums;
+  font-variation-settings: 'wght' 440, var(--opsz);
+  letter-spacing: -0.05em;
+}
+
+.posts a:hover .title {
+  color: var(--grey-700);
+}
+
+.posts a:hover .leaders,
+.posts a:hover time {
+  color: var(--grey-500);
+}
+
+/* Cross-fade between pages, no JavaScript needed. */
+
+@view-transition {
+  navigation: auto;
+}
+
+@media not (prefers-reduced-motion: reduce) {
+  ::view-transition-old(content) {
+    animation: hide 0.4s cubic-bezier(0.6, 0, 0.8, 1) forwards;
+  }
+
+  ::view-transition-new(content) {
+    opacity: 0;
+    animation: appear 0.6s ease 0.2s forwards;
+  }
+}
+
+@keyframes hide {
+  to {
+    opacity: 0;
+    filter: blur(4px);
+  }
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
