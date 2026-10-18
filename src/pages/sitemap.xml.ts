@@ -6,7 +6,7 @@ export async function GET({ site }: APIContext) {
   const urls = [
     { path: '/' },
     { path: '/thoughts' },
-    { path: '/projects' },
+    { path: '/nice-things' },
     ...posts.map((post) => ({
       path: `/thoughts/${post.id}`,
       lastmod: post.data.date.toISOString().slice(0, 10),

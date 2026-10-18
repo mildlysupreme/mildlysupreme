@@ -23,7 +23,7 @@ New posts appear on `/thoughts` (newest first), in `/sitemap.xml` and in the RSS
 
 ## Editing pages
 
-About is `src/pages/index.md` and Projects is `src/pages/projects.md`, both plain Markdown. Styles live in `src/styles/global.css`, and the page frame with the nav and the link-preview tags is `src/layouts/Base.astro`.
+About is `src/pages/index.md` and Nice things is `src/pages/nice-things.md`, both plain Markdown. Styles live in `src/styles/global.css`, and the page frame with the nav and the link-preview tags is `src/layouts/Base.astro`.
 
 ## Running locally
 
