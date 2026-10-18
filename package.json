@@ -19,7 +19,6 @@
     "clsx": "^2.1.0",
     "katex": "^0.16.11",
     "next": "15.5.28",
-    "next-mdx-remote": "^4.4.1",
     "react": "19.2.9",
     "react-dom": "19.2.9",
     "react-katex": "^3.0.1",
