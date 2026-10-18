@@ -8,7 +8,7 @@ import localFont from 'next/font/local'
 import 'katex/dist/katex.min.css'
 
 import Navbar from '@/components/navbar'
-import { siteUrl } from '@/lib/site'
+import { siteDescription, siteName, siteUrl } from '@/lib/site'
 import './globals.css'
 
 const sans = localFont({
@@ -35,8 +35,17 @@ export const metadata: Metadata = {
     template: '%s - Tim de Vries',
     default: 'Tim de Vries',
   },
-  description:
-    'Tim de Vries is a product-minded entrepreneur building a collective of AI experts, designers and engineers who help companies ship next-generation products.',
+  description: siteDescription,
+  openGraph: {
+    siteName,
+    locale: 'en_US',
+    type: 'website',
+    title: 'Tim de Vries',
+    description: siteDescription,
+  },
+  twitter: {
+    card: 'summary_large_image',
+  },
 }
 
 export const viewport: Viewport = {
