@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro'
+import { getCategories } from '../../site'
+
+export async function getStaticPaths() {
+  const categories = await getCategories()
+
+  return categories.map((category) => ({
+    params: { slug: category.id },
+    props: { category },
+  }))
+}
+
+const { category } = Astro.props
+const { title, items } = category.data
+---
+
+<Base title={`${title} - Nice things`} description={`${title} I like, picked by Tim de Vries.`}>
+  <header>
+    <h1>{title}</h1>
+    <a href="/nice-things" class="back">Nice things</a>
+  </header>
+  {items.length === 0 ? (
+    <p>Nothing here yet.</p>
+  ) : (
+    <ul class="items">
+      {items.map((item) => (
+        <li>
+          {item.link ? <a href={item.link}>{item.name}</a> : item.name}
+          {item.note && <span class="note"> {item.note}</span>}
+        </li>
+      ))}
+    </ul>
+  )}
+</Base>

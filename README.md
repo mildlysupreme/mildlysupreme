@@ -21,9 +21,26 @@ Text goes here. The title is shown above it automatically.
 
 New posts appear on `/thoughts` (newest first), in `/sitemap.xml` and in the RSS feed at `/rss.xml` automatically.
 
+## Adding nice things
+
+Each category is a file in `src/content/nice-things/`, such as `watches.md`. Add items to its list:
+
+```md
+---
+title: Watches
+items:
+  - name: Grand Seiko SBGA211
+    link: https://www.grand-seiko.com
+    note: The Snowflake dial.
+  - name: Another watch
+---
+```
+
+`link` and `note` are optional. Categories are sorted alphabetically on `/nice-things` and show their item count. To add a category, add a file; to remove one, delete it.
+
 ## Editing pages
 
-About is `src/pages/index.md` and Projects is `src/pages/projects.md`, both plain Markdown. Styles live in `src/styles/global.css`, and the page frame with the nav and the link-preview tags is `src/layouts/Base.astro`.
+About is `src/pages/index.md` and Nice things is `src/pages/nice-things.md`, both plain Markdown. Styles live in `src/styles/global.css`, and the page frame with the nav and the link-preview tags is `src/layouts/Base.astro`.
 
 ## Running locally
 
