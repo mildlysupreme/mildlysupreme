@@ -407,6 +407,31 @@ time {
   color: var(--grey-500);
 }
 
+/* Nice things: category list with counts, and each category's items. */
+
+.categories {
+  padding: 0;
+  list-style: none;
+}
+
+.categories li {
+  padding: 0;
+}
+
+.categories .count,
+.items .note,
+.back {
+  color: var(--grey-300);
+}
+
+.back {
+  text-decoration: none;
+}
+
+.back:hover {
+  color: var(--grey-600);
+}
+
 /* Cross-fade between pages, no JavaScript needed. */
 
 @view-transition {

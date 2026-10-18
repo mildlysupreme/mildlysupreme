@@ -15,6 +15,13 @@ export async function getPosts() {
   return posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
 }
 
+// Nice things categories, alphabetical.
+export async function getCategories() {
+  const categories = await getCollection('niceThings')
+
+  return categories.sort((a, b) => a.data.title.localeCompare(b.data.title))
+}
+
 // 2026-10-18 -> 2026.10.18
 export function formatDate(date: Date) {
   return date.toISOString().slice(0, 10).replaceAll('-', '.')

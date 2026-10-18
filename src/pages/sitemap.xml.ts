@@ -1,12 +1,14 @@
 import type { APIContext } from 'astro'
-import { getPosts } from '../site'
+import { getCategories, getPosts } from '../site'
 
 export async function GET({ site }: APIContext) {
   const posts = await getPosts()
+  const categories = await getCategories()
   const urls = [
     { path: '/' },
     { path: '/thoughts' },
     { path: '/nice-things' },
+    ...categories.map((category) => ({ path: `/nice-things/${category.id}` })),
     ...posts.map((post) => ({
       path: `/thoughts/${post.id}`,
       lastmod: post.data.date.toISOString().slice(0, 10),
