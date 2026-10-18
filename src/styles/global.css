@@ -420,9 +420,35 @@ time {
 }
 
 .categories .count,
-.items .note,
-.back {
+.back,
+.source {
   color: var(--grey-300);
+}
+
+.thing + .thing {
+  margin-top: 3.5rem;
+}
+
+.thing h2 {
+  margin: var(--space) 0 0;
+}
+
+.thing h2:first-child {
+  margin-top: 0;
+}
+
+.thing h2 + p {
+  margin-top: 0.25rem;
+}
+
+.thing img + img {
+  margin-top: 0.5rem;
+}
+
+.source {
+  margin-top: 0.75rem;
+  font-size: 12px;
+  line-height: 1.25rem;
 }
 
 .back {

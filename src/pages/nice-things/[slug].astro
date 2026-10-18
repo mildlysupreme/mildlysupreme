@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets'
 import Base from '../../layouts/Base.astro'
 import { getCategories } from '../../site'
 
@@ -23,13 +24,25 @@ const { title, items } = category.data
   {items.length === 0 ? (
     <p>Nothing here yet.</p>
   ) : (
-    <ul class="items">
-      {items.map((item) => (
-        <li>
-          {item.link ? <a href={item.link}>{item.name}</a> : item.name}
-          {item.note && <span class="note"> {item.note}</span>}
-        </li>
-      ))}
-    </ul>
+    items.map((item) => (
+      <section class="thing">
+        {item.images.map((img) => (
+          <Image src={img.src} alt={img.alt} widths={[672, 1344]} sizes="(min-width: 768px) 672px, 100vw" />
+        ))}
+        <h2>{item.name}</h2>
+        {item.description && <p>{item.description}</p>}
+        {(item.source || item.credit) && (
+          <p class="source">
+            <em>
+              {item.source && (
+                <>Source: <a href={item.source.url}>{item.source.name}</a></>
+              )}
+              {item.source && item.credit && ' · '}
+              {item.credit && <>Photos: {item.credit}</>}
+            </em>
+          </p>
+        )}
+      </section>
+    ))
   )}
 </Base>
