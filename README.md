@@ -25,7 +25,7 @@ Text goes here.
 
 Images go in `assets/images/` and are referenced by file name: `![Alt text](my-image.png)`.
 
-The article shows up on `/thoughts` (newest first) and in `/sitemap.xml` automatically. Pushing to `main` deploys to production on Vercel.
+The article shows up on `/thoughts` (newest first) and in `/sitemap.xml` automatically, and gets its own share image with the title and date for link previews on LinkedIn and X. Pushing to `main` deploys to production on Vercel.
 
 ## Running locally
 

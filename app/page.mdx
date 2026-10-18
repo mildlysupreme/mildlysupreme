@@ -1,6 +1,11 @@
-export const metadata = {
+import { pageMetadata, siteDescription } from '@/lib/site'
+
+export const metadata = pageMetadata({
   title: 'Mildlysupreme',
-}
+  ogTitle: 'Tim de Vries',
+  description: siteDescription,
+  path: '/',
+})
 
 # Mildlysupreme
 

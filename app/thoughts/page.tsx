@@ -1,12 +1,15 @@
 import Link from 'next/link'
 
 import { getArticles } from '@/lib/articles'
+import { pageMetadata } from '@/lib/site'
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: 'Thoughts',
+  ogTitle: 'Thoughts - Tim de Vries',
   description:
     'Articles by Tim de Vries on AI, product, design and building ventures.',
-}
+  path: '/thoughts',
+})
 
 export default async function Page() {
   const items = await getArticles()

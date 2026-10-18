@@ -1,6 +1,7 @@
 import cn from 'clsx'
 
-import { getArticleSlugs } from '@/lib/articles'
+import { getArticle, getArticleSlugs } from '@/lib/articles'
+import { pageMetadata } from '@/lib/site'
 
 // Only the articles in _articles exist; any other slug is a 404.
 export const dynamicParams = false
@@ -37,10 +38,14 @@ export async function generateMetadata(props: {
   }>
 }) {
   const params = await props.params
-  const metadata = (await import('../_articles/' + `${params.slug}.mdx`))
-    .metadata
-  return {
-    title: metadata.title,
-    description: metadata.description,
-  }
+  const article = await getArticle(params.slug)
+
+  return pageMetadata({
+    title: article.title,
+    description: article.description,
+    path: `/thoughts/${article.slug}`,
+    type: 'article',
+    publishedTime:
+      article.date === '-' ? undefined : article.date.replaceAll('.', '-'),
+  })
 }
