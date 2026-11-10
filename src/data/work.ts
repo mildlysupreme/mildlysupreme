@@ -82,16 +82,23 @@ export const ventures = [
   { name: 'Chatsy', domain: 'chatsy.org', url: 'https://www.chatsy.org', line: 'AI chatbots that answer from your own content, around the clock.' },
 ]
 
-// Clients through Teqqed, from teqqed.com/about.
+// Clients, shown in the strip and under Worked with.
 export const clients = [
   'Air France',
   'KLM',
+  'PwC',
   'NS',
   'Transdev',
+  'MJ Hudson',
   'LRC Group',
   'NEX',
+  'Blu Marbl Consulting',
   'HeatTransformers',
   'Vonder',
+  'Carepath',
+  'Breathelabs',
+  'Onto',
+  'Indivi',
   'Netmaker',
   'Workspace 365',
   'Puurspanje',
