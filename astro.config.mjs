@@ -5,6 +5,6 @@ export default defineConfig({
   trailingSlash: 'never',
   build: { format: 'file' },
   markdown: {
-    shikiConfig: { theme: 'github-light' },
+    shikiConfig: { theme: 'github-dark' },
   },
 })

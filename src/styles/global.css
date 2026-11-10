@@ -132,7 +132,7 @@ img {
   }
 }
 
-/* The footer has the email link, so phones drop Contact from the bar. */
+/* Every page ends with the email link, so phones drop Contact from the bar. */
 @media (max-width: 480px) {
   .topbar nav a[href^='mailto:'] {
     display: none;
@@ -483,6 +483,22 @@ main > .row:first-child {
 .footer {
   padding-top: 3rem;
   padding-bottom: 2rem;
+}
+
+/* Footer on every page but the homepage, which has its own */
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  padding: 1.5rem var(--pad);
+  border-top: 1px solid var(--line);
+  color: var(--dim);
+}
+
+.site-footer a:hover {
+  color: var(--fg);
 }
 
 /* Long-form text: posts */

@@ -74,5 +74,11 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/')
     <main>
       <slot />
     </main>
+    {path !== '/' && (
+      <footer class="site-footer">
+        <span>©{new Date().getFullYear()} {author}</span>
+        <a href={`mailto:${email}`}>{email}</a>
+      </footer>
+    )}
   </body>
 </html>
