@@ -1,0 +1,15 @@
+---
+// One section of the page grid: a small label on the left, content on the right.
+interface Props {
+  label?: string
+  id?: string
+  class?: string
+}
+
+const { label, id, class: className } = Astro.props
+---
+
+<section class:list={['row', className]} id={id}>
+  <div class="label"><slot name="label">{label}</slot></div>
+  <div class="content"><slot /></div>
+</section>

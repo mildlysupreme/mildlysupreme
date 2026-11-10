@@ -1,0 +1,198 @@
+---
+import { Image } from 'astro:assets'
+import Row from '../components/Row.astro'
+import Base from '../layouts/Base.astro'
+import { clients, email, moreWork, selectedWork, ventures } from '../data/work'
+import { formatDate, getCategories, getPosts } from '../site'
+
+const posts = (await getPosts()).slice(0, 3)
+
+// Interests, in this order, each linking to its Nice things category.
+const interestIds = ['libraries', 'trees', 'industrial-design', 'architecture', 'anime', 'japan']
+const categories = await getCategories()
+const interests = interestIds
+  .map((id) => categories.find((category) => category.id === id))
+  .filter((category) => category !== undefined)
+---
+
+<Base>
+  <Row class="hero" label="Tim de Vries">
+    <h1>Serial entrepreneur, investor and fast failer.</h1>
+    <p>
+      Futurist and contrarian, based in Heerenveen. I start companies, invest in ideas and
+      think out loud about AI, products and what comes next. Off the clock: libraries, trees,
+      industrial design, architecture, anime and Japan.
+    </p>
+  </Row>
+
+  <Row label="About" id="about">
+    <div class="lead">
+      <p>
+        I'm Tim. I start things. Some become companies, some become lessons, and I try to get
+        to either one fast. That's what fast failing means to me: test the idea this month
+        instead of planning it for a year.
+      </p>
+      <p>
+        Over the past decade I've grown a digital agency to over $1M in annual revenue, led
+        multiple SaaS launches from zero to exit, and backed founders and ideas I believe in.
+      </p>
+      <p>
+        I'm a futurist by habit and a contrarian by nature. Right now that means AI: I want to
+        understand where it takes us, build with it early, and say so when the crowd gets it
+        wrong.
+      </p>
+      <p>
+        Teqqed, my studio, is where much of that turns into real products, brands and systems.
+        The rest lives here: writing, building, and a growing collection of nice things.
+      </p>
+    </div>
+  </Row>
+
+  <Row label="Interests">
+    <ul class="interests">
+      {interests.map((category) => {
+        const cover = category.data.items.find((item) => item.images.length > 0)?.images[0]
+        return (
+          <li>
+            <a href={`/nice-things/${category.id}`} draggable="false">
+              {cover && (
+                <Image src={cover.src} alt="" widths={[400, 800]} sizes="(min-width: 760px) 25vw, 50vw" />
+              )}
+              <span class="name">{category.data.title}</span>
+              <span class="count">{category.data.items.length}</span>
+            </a>
+          </li>
+        )
+      })}
+    </ul>
+  </Row>
+
+  <Row label="Writing">
+    <ul class="list">
+      {posts.map((post) => (
+        <li>
+          <a href={`/thoughts/${post.id}`}>{post.data.title}</a>
+          <span class="detail">{formatDate(post.data.date)}</span>
+        </li>
+      ))}
+      <li>
+        <a href="/manifesto">Manifesto</a>
+        <span class="detail">For a more human future. What I believe about AI, craft and what's worth building.</span>
+      </li>
+      {posts.length === 0 && (
+        <li><a href="/thoughts">Thoughts</a><span class="detail">The first articles are on their way.</span></li>
+      )}
+    </ul>
+  </Row>
+
+  <Row label="Building">
+    <ul class="list">
+      {ventures.map((venture) => (
+        <li><a href={venture.url}>{venture.name} ↗</a><span class="detail">{venture.line}</span></li>
+      ))}
+    </ul>
+  </Row>
+
+  <Row label="Work" id="work">
+    <p class="muted">A few things made with the team at Teqqed.</p>
+    <ul class="work-grid">
+      {selectedWork.map((work) => (
+        <li>
+          <Image
+            src={work.image}
+            alt={`${work.name}, work by Teqqed`}
+            widths={[600, 900, 1200]}
+            sizes="(min-width: 760px) 37vw, 100vw"
+          />
+          <p>{work.name}</p>
+          <p class="line">{work.line}</p>
+          <ul class="tags">
+            {work.services.map((service) => <li>{service}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </Row>
+
+  <div class="strip" aria-label="Clients">
+    <ul>
+      {[...clients, ...clients].map((name, i) => (
+        <li aria-hidden={i >= clients.length ? 'true' : undefined}>{name}</li>
+      ))}
+    </ul>
+  </div>
+
+  <Row label="More work">
+    <ul class="list">
+      {moreWork.map((work) => (
+        <li><span>{work.name}</span><span class="detail">{work.services}</span></li>
+      ))}
+    </ul>
+  </Row>
+
+  <Row label="Worked with">
+    <p class="lead">{clients.join(', ')}.</p>
+  </Row>
+
+  <Row label="Open to conversations with">
+    <ol class="numbered">
+      <li>Founders building products and brands with AI at the core.</li>
+      <li>People with a contrarian idea who want to test it fast.</li>
+      <li>Designers, engineers and makers who care about craft.</li>
+    </ol>
+  </Row>
+
+  <Row label="Connect" id="contact">
+    <ul class="list">
+      <li><a href={`mailto:${email}`}>Email</a><span class="detail">{email}</span></li>
+      <li><a href="https://www.teqqed.com">Teqqed ↗</a><span class="detail">teqqed.com</span></li>
+    </ul>
+  </Row>
+
+  <Row label="Location">
+    <div class="clock">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        {Array.from({ length: 12 }, (_, i) => (
+          <line class="tick" x1="50" y1="6" x2="50" y2={i % 3 === 0 ? 14 : 10} transform={`rotate(${i * 30} 50 50)`} />
+        ))}
+        <line class="hand" data-hand="h" x1="50" y1="50" x2="50" y2="28" stroke-width="2.5" />
+        <line class="hand" data-hand="m" x1="50" y1="50" x2="50" y2="16" stroke-width="1.5" />
+        <line class="hand second" data-hand="s" x1="50" y1="56" x2="50" y2="12" />
+      </svg>
+      <div>
+        <p>Heerenveen, NL</p>
+        <p class="dim" id="local-time"></p>
+      </div>
+    </div>
+  </Row>
+
+  <Row class="footer" label={`©${new Date().getFullYear()}`}>
+    <a class="email-me" href={`mailto:${email}`}>Email me</a>
+  </Row>
+</Base>
+
+<script is:inline>
+  // Local time in Heerenveen for the clock.
+  ;(() => {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Amsterdam',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    })
+    const label = document.getElementById('local-time')
+    const hands = Object.fromEntries(
+      [...document.querySelectorAll('[data-hand]')].map((el) => [el.dataset.hand, el])
+    )
+    const tick = () => {
+      const [h, m, s] = fmt.format(new Date()).split(':').map(Number)
+      hands.h.style.transform = `rotate(${(h % 12) * 30 + m / 2}deg)`
+      hands.m.style.transform = `rotate(${m * 6}deg)`
+      hands.s.style.transform = `rotate(${s * 6}deg)`
+      label.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')} local time`
+    }
+    tick()
+    setInterval(tick, 1000)
+  })()
+</script>

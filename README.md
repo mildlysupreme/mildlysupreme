@@ -1,6 +1,6 @@
 # Mildlysupreme
 
-Source of [mildlysupreme.com](https://www.mildlysupreme.com), the personal site of Tim de Vries. A static [Astro](https://astro.build) site: plain Markdown and one stylesheet, no JavaScript sent to visitors. Pushing to `main` deploys to production on Vercel.
+Source of [mildlysupreme.com](https://www.mildlysupreme.com), the personal site of Tim de Vries. A static [Astro](https://astro.build) site: plain Markdown and one stylesheet. The only JavaScript sent to visitors is the small clock on the homepage. Pushing to `main` deploys to production on Vercel.
 
 ## Writing a post
 
@@ -46,7 +46,9 @@ Only `name` is required. Images go in `src/content/nice-things/images/` and are 
 
 ## Editing pages
 
-About is `src/pages/index.md`, in plain Markdown. Styles live in `src/styles/global.css`, and the page frame with the nav and the link-preview tags is `src/layouts/Base.astro`.
+- **Homepage:** `src/pages/index.astro`. The cases, products, clients and contact email it shows live in `src/data/work.ts`, with case images in `src/assets/cases/`.
+- **Manifesto:** `src/pages/manifesto.astro`.
+- **Look and feel:** `src/styles/global.css`. The top bar and link-preview tags are in `src/layouts/Base.astro`, and `src/components/Row.astro` is the label-left, content-right section used on every page.
 
 ## Running locally
 

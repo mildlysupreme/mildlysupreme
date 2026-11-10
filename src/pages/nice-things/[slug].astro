@@ -1,5 +1,6 @@
 ---
 import { Image } from 'astro:assets'
+import Row from '../../components/Row.astro'
 import Base from '../../layouts/Base.astro'
 import { getCategories } from '../../site'
 
@@ -17,39 +18,41 @@ const { title, items } = category.data
 ---
 
 <Base title={`${title} - Nice things`} description={`${title} I like, picked by Tim de Vries.`}>
-  <header class="crumbs">
-    <a href="/nice-things">Nice things</a>
-    <span aria-hidden="true">/</span>
-    <h1>{title}</h1>
-  </header>
-  {items.length === 0 ? (
-    <p>Nothing here yet.</p>
-  ) : (
-    items.map((item, i) => (
-      <section class="thing">
-        {item.images.map((img, j) => (
-          <Image
-            src={img.src}
-            alt={img.alt}
-            widths={[672, 1344]}
-            sizes="(min-width: 768px) 672px, 100vw"
-            loading={i === 0 && j === 0 ? 'eager' : 'lazy'}
-          />
-        ))}
-        <h2>{item.name}</h2>
-        {item.description && <p>{item.description}</p>}
-        {(item.source || item.credit) && (
-          <p class="source">
-            <em>
-              {item.source && (
-                <>Source: <a href={item.source.url}>{item.source.name}</a></>
-              )}
-              {item.source && item.credit && ' · '}
-              {item.credit && <>Photos: {item.credit}</>}
-            </em>
-          </p>
-        )}
-      </section>
-    ))
-  )}
+  <Row>
+    <h1 slot="label" class="crumbs">
+      <a href="/nice-things">Nice things</a>
+      <span aria-hidden="true">/</span>
+      <strong>{title}</strong>
+    </h1>
+    {items.length === 0 ? (
+      <p class="muted">Nothing here yet.</p>
+    ) : (
+      items.map((item, i) => (
+        <section class="thing">
+          {item.images.map((img, j) => (
+            <Image
+              src={img.src}
+              alt={img.alt}
+              widths={[800, 1200, 1600]}
+              sizes="(min-width: 760px) 75vw, 100vw"
+              loading={i === 0 && j === 0 ? 'eager' : 'lazy'}
+            />
+          ))}
+          <h2>{item.name}</h2>
+          {item.description && <p class="description">{item.description}</p>}
+          {(item.source || item.credit) && (
+            <p class="source">
+              <em>
+                {item.source && (
+                  <>Source: <a href={item.source.url}>{item.source.name}</a></>
+                )}
+                {item.source && item.credit && ' · '}
+                {item.credit && <>Photos: {item.credit}</>}
+              </em>
+            </p>
+          )}
+        </section>
+      ))
+    )}
+  </Row>
 </Base>
