@@ -728,10 +728,6 @@ pre {
 
 /* Smallest phones: the footer has Email me, so Contact leaves the bar. */
 @media (max-width: 480px) {
-  .topbar .role {
-    display: none;
-  }
-
   .topbar nav a[href^='mailto:'] {
     display: none;
   }

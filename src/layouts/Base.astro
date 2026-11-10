@@ -63,7 +63,7 @@ const isActive = (href: string) => path === href || path.startsWith(href + '/')
   </head>
   <body>
     <header class="topbar">
-      <a href="/" class="home" draggable="false">{author}<span class="role"> · Entrepreneur</span></a>
+      <a href="/" class="home" draggable="false">{siteName}</a>
       <nav>
         {nav.map(({ href, label }) => (
           <a href={href} class:list={['secondary', { active: isActive(href) }]} draggable="false">{label}</a>
