@@ -207,7 +207,7 @@ img {
   display: flex;
   gap: 10px;
   width: max-content;
-  animation: strip 50s linear infinite;
+  animation: strip 80s linear infinite;
 }
 
 .strip li {
