@@ -3,114 +3,67 @@ import { Image } from 'astro:assets'
 import Row from '../components/Row.astro'
 import Base from '../layouts/Base.astro'
 import { clients, email, moreWork, selectedWork, ventures } from '../data/work'
-import { formatDate, getPosts } from '../site'
+import { formatDate, getCategories, getPosts } from '../site'
 
 const posts = (await getPosts()).slice(0, 3)
+
+// Interests, in this order, each linking to its Nice things category.
+const interestIds = ['libraries', 'trees', 'industrial-design', 'architecture', 'anime', 'japan']
+const categories = await getCategories()
+const interests = interestIds
+  .map((id) => categories.find((category) => category.id === id))
+  .filter((category) => category !== undefined)
 ---
 
 <Base>
   <Row class="hero" label="Tim de Vries">
-    <h1>Products, brands and AI systems, made with care.</h1>
+    <h1>Serial entrepreneur, investor and fast failer.</h1>
     <p>
-      Product-minded entrepreneur and founder of Teqqed, based in Heerenveen. I help
-      founders and teams turn AI into products, brands and systems that actually work.
+      Futurist and contrarian, based in Heerenveen. I start companies, invest in ideas and
+      think out loud about AI, products and what comes next. Off the clock: libraries, trees,
+      industrial design, architecture, anime and Japan.
     </p>
-  </Row>
-
-  <div class="strip" aria-label="Clients">
-    <ul>
-      {[...clients, ...clients].map((name, i) => (
-        <li aria-hidden={i >= clients.length ? 'true' : undefined}>{name}</li>
-      ))}
-    </ul>
-  </div>
-
-  <div id="work">
-    {selectedWork.map((work, i) => (
-      <Row class="case">
-        <Fragment slot="label">
-          <p>{work.name}</p>
-          <p class="line">{work.line}</p>
-          <ul class="tags">
-            {work.services.map((service) => <li>{service}</li>)}
-          </ul>
-        </Fragment>
-        <Image
-          src={work.image}
-          alt={`${work.name}, work by Teqqed`}
-          widths={[800, 1200, 1600]}
-          sizes="(min-width: 760px) 75vw, 100vw"
-          loading={i === 0 ? 'eager' : 'lazy'}
-        />
-      </Row>
-    ))}
-  </div>
-
-  <Row label="More work">
-    <ul class="list">
-      {moreWork.map((work) => (
-        <li><span>{work.name}</span><span class="detail">{work.services}</span></li>
-      ))}
-    </ul>
   </Row>
 
   <Row label="About" id="about">
     <div class="lead">
       <p>
-        I'm Tim, a product-minded entrepreneur with a background in digital marketing,
-        design and building ventures from scratch.
+        I'm Tim. I start things. Some become companies, some become lessons, and I try to get
+        to either one fast. That's what fast failing means to me: test the idea this month
+        instead of planning it for a year.
       </p>
       <p>
-        Over the past decade I've grown a digital agency to over $1M in annual revenue,
-        led multiple SaaS launches from zero to exit, and built teams that blend creative
-        vision with technical execution. My work sits where user experience, growth and
-        scalable technology meet.
+        Over the past decade I've grown a digital agency to over $1M in annual revenue, led
+        multiple SaaS launches from zero to exit, and backed founders and ideas I believe in.
       </p>
       <p>
-        Today my focus is AI: helping companies cut through the noise and get real value
-        out of it. With Teqqed I bring together strategists, designers, engineers and AI
-        specialists to prototype, ship and scale what comes next.
+        I'm a futurist by habit and a contrarian by nature. Right now that means AI: I want to
+        understand where it takes us, build with it early, and say so when the crowd gets it
+        wrong.
+      </p>
+      <p>
+        Teqqed, my studio, is where much of that turns into real products, brands and systems.
+        The rest lives here: writing, building, and a growing collection of nice things.
       </p>
     </div>
   </Row>
 
-  <Row label="Focus">
-    <div class="columns">
-      <div>
-        <h3>Strategy</h3>
-        <ul>
-          <li>Product strategy</li>
-          <li>AI strategy</li>
-          <li>Positioning</li>
-          <li>Operating models</li>
-        </ul>
-      </div>
-      <div>
-        <h3>Design</h3>
-        <ul>
-          <li>Brand identity</li>
-          <li>Product design</li>
-          <li>Web design</li>
-          <li>Design systems</li>
-        </ul>
-      </div>
-      <div>
-        <h3>AI + Build</h3>
-        <ul>
-          <li>AI agents</li>
-          <li>Workflow automation</li>
-          <li>Web platforms</li>
-          <li>Custom software</li>
-        </ul>
-      </div>
-    </div>
-  </Row>
-
-  <Row label="Building">
-    <ul class="list">
-      {ventures.map((venture) => (
-        <li><a href={venture.url}>{venture.name} ↗</a><span class="detail">{venture.line}</span></li>
-      ))}
+  <Row label="Interests">
+    <ul class="interests">
+      {interests.map((category) => {
+        const cover = category.data.items.find((item) => item.images.length > 0)?.images[0]
+        return (
+          <li>
+            <a href={`/nice-things/${category.id}`} draggable="false">
+              {cover && (
+                <Image src={cover.src} alt="" widths={[400, 800]} sizes="(min-width: 760px) 25vw, 50vw" />
+              )}
+              <span class="name">{category.data.title}</span>
+              <span class="count">{category.data.items.length}</span>
+            </a>
+          </li>
+        )
+      })}
     </ul>
   </Row>
 
@@ -132,6 +85,51 @@ const posts = (await getPosts()).slice(0, 3)
     </ul>
   </Row>
 
+  <Row label="Building">
+    <ul class="list">
+      {ventures.map((venture) => (
+        <li><a href={venture.url}>{venture.name} ↗</a><span class="detail">{venture.line}</span></li>
+      ))}
+    </ul>
+  </Row>
+
+  <Row label="Work" id="work">
+    <p class="muted">A few things made with the team at Teqqed.</p>
+    <ul class="work-grid">
+      {selectedWork.map((work) => (
+        <li>
+          <Image
+            src={work.image}
+            alt={`${work.name}, work by Teqqed`}
+            widths={[600, 900, 1200]}
+            sizes="(min-width: 760px) 37vw, 100vw"
+          />
+          <p>{work.name}</p>
+          <p class="line">{work.line}</p>
+          <ul class="tags">
+            {work.services.map((service) => <li>{service}</li>)}
+          </ul>
+        </li>
+      ))}
+    </ul>
+  </Row>
+
+  <div class="strip" aria-label="Clients">
+    <ul>
+      {[...clients, ...clients].map((name, i) => (
+        <li aria-hidden={i >= clients.length ? 'true' : undefined}>{name}</li>
+      ))}
+    </ul>
+  </div>
+
+  <Row label="More work">
+    <ul class="list">
+      {moreWork.map((work) => (
+        <li><span>{work.name}</span><span class="detail">{work.services}</span></li>
+      ))}
+    </ul>
+  </Row>
+
   <Row label="Worked with">
     <p class="lead">{clients.join(', ')}.</p>
   </Row>
@@ -139,7 +137,7 @@ const posts = (await getPosts()).slice(0, 3)
   <Row label="Open to conversations with">
     <ol class="numbered">
       <li>Founders building products and brands with AI at the core.</li>
-      <li>Teams that want AI to change how they work, not just how they demo.</li>
+      <li>People with a contrarian idea who want to test it fast.</li>
       <li>Designers, engineers and makers who care about craft.</li>
     </ol>
   </Row>

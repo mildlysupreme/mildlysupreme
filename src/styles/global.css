@@ -203,11 +203,11 @@ main > .row:first-child {
   color: var(--muted);
 }
 
-/* Home: scrolling strip of client names */
+/* Home: scrolling strip of client names, under the work */
 
 .strip {
   overflow: hidden;
-  padding: 0 0 4rem;
+  padding: 0 0 3rem;
   mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
 
@@ -252,23 +252,83 @@ main > .row:first-child {
   }
 }
 
-/* Home: a case, text bottom-left and a large image on the right */
+/* Home: interests as tiles, each linking to its Nice things category */
 
-.case {
-  padding-top: var(--pad);
-  padding-bottom: var(--pad);
+.interests {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
-.case > .label {
+.interests a {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 0.25rem;
-  color: var(--fg);
+  align-items: flex-end;
+  justify-content: space-between;
+  aspect-ratio: 3 / 2;
+  padding: 12px 14px;
+  overflow: hidden;
+  background: var(--tile);
+  border: 1px solid var(--line);
 }
 
-.case .line {
-  max-width: 22rem;
+.interests img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.45;
+  transition: opacity 0.2s;
+}
+
+.interests a:hover img {
+  opacity: 0.7;
+}
+
+.interests a:hover {
+  border-color: var(--faint);
+}
+
+.interests .name,
+.interests .count {
+  position: relative;
+}
+
+.interests .count {
+  color: var(--dim);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 560px) {
+  .interests {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Home: compact work grid, image with name, one-liner and services */
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2.5rem var(--pad);
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work-grid img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+  background: var(--tile);
+}
+
+.work-grid .line {
   color: var(--muted);
 }
 
@@ -291,16 +351,9 @@ main > .row:first-child {
   letter-spacing: 0.03em;
 }
 
-.case img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  background: var(--tile);
-}
-
-@media (max-width: 760px) {
-  .case > .label {
-    order: 2;
+@media (max-width: 560px) {
+  .work-grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -364,32 +417,6 @@ main > .row:first-child {
   font-weight: 450;
   line-height: 1.2;
   letter-spacing: -0.02em;
-}
-
-.columns {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--pad);
-}
-
-.columns h3 {
-  margin: 0 0 0.5rem;
-  color: var(--dim);
-  font-size: inherit;
-  font-weight: 400;
-}
-
-.columns ul {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-@media (max-width: 560px) {
-  .columns {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
 }
 
 .numbered {

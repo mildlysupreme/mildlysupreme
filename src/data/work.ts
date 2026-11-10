@@ -2,16 +2,12 @@
 // a one-liner and services are shown, no case details.
 import alvesta from '../assets/cases/alvesta-living.jpg'
 import atlas from '../assets/cases/atlas-land.jpg'
-import bloop from '../assets/cases/bloop.jpg'
-import heattransformers from '../assets/cases/heattransformers.jpg'
 import hypeling from '../assets/cases/hypeling.jpg'
 import numa from '../assets/cases/numa.jpg'
-import reeg from '../assets/cases/real-estate-empire-group.jpg'
 import soren from '../assets/cases/soren.jpg'
 import vonder from '../assets/cases/vonder.jpg'
-import werky from '../assets/cases/werky.jpg'
 
-// Big rows with an image, in this order.
+// Shown with an image, in this order.
 export const selectedWork = [
   {
     name: 'Vonder',
@@ -49,45 +45,23 @@ export const selectedWork = [
     services: ['Branding', 'Brand Identity', 'Brand Guidelines'],
     image: soren,
   },
-  {
-    name: 'HeatTransformers',
-    line: 'A premium digital experience for the future of sustainable home heating.',
-    services: ['Branding', 'Product Design', 'Development'],
-    image: heattransformers,
-  },
-  {
-    name: 'Real Estate Empire Group',
-    line: 'One recognizable brand system, from property discovery to campaigns, events and lead follow-up.',
-    services: ['Brand Identity', 'Web Design', 'Marketing Design'],
-    image: reeg,
-  },
-  {
-    name: 'Werky',
-    line: 'A community platform for volunteer discovery, availability, vacancies and scheduling.',
-    services: ['Product Design', 'Development', 'Research'],
-    image: werky,
-  },
-  {
-    name: 'Bloop',
-    line: 'A modern workspace built for the next generation of teams.',
-    services: ['Brand Identity', 'Product Design', 'UI Design'],
-    image: bloop,
-  },
 ]
 
 // The rest, as a compact list.
 export const moreWork = [
   { name: 'Andalucia Real Estate', services: 'Strategy, Brand, Web, Automation' },
   { name: 'Atelier', services: 'Brand Identity, Product Design' },
-  { name: 'Chatsy', services: 'Branding, Product Design, Development' },
+  { name: 'Bloop', services: 'Brand Identity, Product Design, UI Design' },
+  { name: 'HeatTransformers', services: 'Branding, Product Design, Development' },
   { name: 'Kumo', services: 'Strategy, Branding, Development, AI' },
-  { name: 'Killerhabits', services: 'Product Design, UI Design, Research' },
   { name: 'Moca', services: 'UI Design, Brand Identity, Research' },
   { name: 'MOF', services: 'Branding, Brand Guidelines' },
   { name: 'Nestseekers', services: 'Branding, Product Design' },
   { name: 'NEX', services: 'Brand Strategy, Web Design, Development' },
+  { name: 'Real Estate Empire Group', services: 'Brand Identity, Web Design, Marketing Design' },
   { name: 'Studio Moss', services: 'Design System, Branding, Product Design' },
   { name: 'VonderX', services: 'Branding, UI Design, Development' },
+  { name: 'Werky', services: 'Product Design, Development, Research' },
   { name: 'WeWo', services: 'Branding, Brand Identity' },
 ]
 
@@ -97,6 +71,9 @@ export const ventures = [
   { name: 'Schematic', url: 'https://www.schematic.org', line: 'A visual platform for mapping businesses, products and complex systems.' },
   { name: 'Localtalent.now', url: 'https://www.localtalent.now', line: 'Making skilled people easier to find close to home.' },
   { name: 'Fryslân.club', url: 'https://fryslan.club', line: 'Putting Frisian companies, organizations and initiatives on the map.' },
+  { name: 'Elitice', url: 'https://www.elitice.com', line: 'Find people to spar with and learn from in real estate, luxury and automotive.' },
+  { name: 'Killerhabits', url: 'https://killerhabits.app', line: 'A habit tracker for building routines, quitting bad patterns and sharing progress.' },
+  { name: 'Chatsy', url: 'https://www.chatsy.org', line: 'AI chatbots that answer from your own content, around the clock.' },
 ]
 
 // Clients through Teqqed, from teqqed.com/about.
@@ -114,4 +91,4 @@ export const clients = [
   'Puurspanje',
 ]
 
-export const email = 'hello@teqqed.com'
+export const email = 'tim@teqqed.com'
