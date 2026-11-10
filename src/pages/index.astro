@@ -5,32 +5,85 @@ import Base from '../layouts/Base.astro'
 import { clients, email, moreWork, selectedWork, ventures } from '../data/work'
 import { formatDate, getCategories, getPosts } from '../site'
 
-const posts = (await getPosts()).slice(0, 3)
+const posts = await getPosts()
 
-// Interests, in this order, each linking to its Nice things category.
-const interestIds = ['libraries', 'trees', 'industrial-design', 'architecture', 'anime', 'japan']
+// Interests in three columns, each linking to its Nice things category.
 const categories = await getCategories()
-const interests = interestIds
-  .map((id) => categories.find((category) => category.id === id))
-  .filter((category) => category !== undefined)
+const byId = (id: string) => categories.find((category) => category.id === id)
+const interestColumns = [
+  { title: 'Spaces', ids: ['architecture', 'interior', 'libraries'] },
+  { title: 'Objects', ids: ['industrial-design', 'watches'] },
+  { title: 'Culture and nature', ids: ['japan', 'anime', 'trees', 'people'] },
+].map((column) => ({
+  ...column,
+  items: column.ids.map(byId).filter((category) => category !== undefined),
+}))
 ---
 
 <Base>
   <Row class="hero" label="Tim de Vries">
     <h1>Serial entrepreneur, investor and fast failer.</h1>
-    <p>
-      Futurist and contrarian, based in Heerenveen. I start companies, invest in ideas and
-      think out loud about AI, products and what comes next. Off the clock: libraries, trees,
-      industrial design, architecture, anime and Japan.
-    </p>
+    <p>Futurist and contrarian from Heerenveen, building companies with AI and people.</p>
+  </Row>
+
+  <div class="row strip-row">
+    <div></div>
+    <div class="strip" aria-label="Clients">
+      <ul>
+        {[...clients, ...clients].map((name, i) => (
+          <li aria-hidden={i >= clients.length ? 'true' : undefined}>{name}</li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="cases" id="work">
+    {selectedWork.map((work, i) => (
+      <article class="case">
+        <div class="caption">
+          <p>{work.name}</p>
+          <p class="headline">{work.headline}</p>
+          <p class="line">{work.line}</p>
+          <ul class="tags">
+            {work.services.map((service) => <li>{service}</li>)}
+          </ul>
+        </div>
+        <Image
+          src={work.image}
+          alt={`${work.name}, work by Teqqed`}
+          widths={[800, 1200, 1600, 1920]}
+          sizes="(min-width: 1200px) 960px, (min-width: 810px) 70vw, 100vw"
+          loading={i === 0 ? 'eager' : 'lazy'}
+        />
+      </article>
+    ))}
+  </div>
+
+  <Row label="Building">
+    <ul class="table">
+      {ventures.map((venture) => (
+        <li>
+          <a href={venture.url}>{venture.name}</a>
+          <span class="detail">{venture.line}</span>
+          <a class="end" href={venture.url}>{venture.domain}</a>
+        </li>
+      ))}
+    </ul>
+  </Row>
+
+  <Row label="More work">
+    <ul class="table">
+      {moreWork.map((work) => (
+        <li><span>{work.name}</span><span class="detail">{work.services}</span><span class="end">Teqqed</span></li>
+      ))}
+    </ul>
   </Row>
 
   <Row label="About" id="about">
     <div class="lead">
       <p>
-        I'm Tim. I start things. Some become companies, some become lessons, and I try to get
-        to either one fast. That's what fast failing means to me: test the idea this month
-        instead of planning it for a year.
+        I'm Tim, a serial entrepreneur, investor and fast failer. I start things, test them
+        quickly and keep what works.
       </p>
       <p>
         Over the past decade I've grown a digital agency to over $1M in annual revenue, led
@@ -48,104 +101,63 @@ const interests = interestIds
     </div>
   </Row>
 
-  <Row label="Interests">
-    <ul class="interests">
-      {interests.map((category) => {
-        const cover = category.data.items.find((item) => item.images.length > 0)?.images[0]
-        return (
-          <li>
-            <a href={`/nice-things/${category.id}`} draggable="false">
-              {cover && (
-                <Image src={cover.src} alt="" widths={[400, 800]} sizes="(min-width: 760px) 25vw, 50vw" />
-              )}
-              <span class="name">{category.data.title}</span>
-              <span class="count">{category.data.items.length}</span>
-            </a>
-          </li>
-        )
-      })}
-    </ul>
+  <Row label="Interests" contentClass="columns">
+    {interestColumns.map((column) => (
+      <div>
+        <h3>{column.title}</h3>
+        <ul>
+          {column.items.map((category) => (
+            <li>
+              <a href={`/nice-things/${category.id}`}>{category.data.title}</a>
+              {category.data.items.length > 0 && <span class="count">{category.data.items.length}</span>}
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))}
   </Row>
 
   <Row label="Writing">
-    <ul class="list">
+    <ul class="table">
+      <li>
+        <a href="/manifesto">Manifesto</a>
+        <span class="detail">For a more human future</span>
+        <span class="end">2026</span>
+      </li>
       {posts.map((post) => (
         <li>
           <a href={`/thoughts/${post.id}`}>{post.data.title}</a>
-          <span class="detail">{formatDate(post.data.date)}</span>
+          <span class="detail">{post.data.description}</span>
+          <span class="end">{formatDate(post.data.date)}</span>
         </li>
       ))}
-      <li>
-        <a href="/manifesto">Manifesto</a>
-        <span class="detail">For a more human future. What I believe about AI, craft and what's worth building.</span>
-      </li>
       {posts.length === 0 && (
-        <li><a href="/thoughts">Thoughts</a><span class="detail">The first articles are on their way.</span></li>
+        <li>
+          <a href="/thoughts">Thoughts</a>
+          <span class="detail">The first articles are on their way</span>
+          <span class="end">Soon</span>
+        </li>
       )}
     </ul>
   </Row>
 
-  <Row label="Building">
-    <ul class="list">
-      {ventures.map((venture) => (
-        <li><a href={venture.url}>{venture.name} ↗</a><span class="detail">{venture.line}</span></li>
-      ))}
-    </ul>
-  </Row>
-
-  <Row label="Work" id="work">
-    <p class="muted">A few things made with the team at Teqqed.</p>
-    <ul class="work-grid">
-      {selectedWork.map((work) => (
-        <li>
-          <Image
-            src={work.image}
-            alt={`${work.name}, work by Teqqed`}
-            widths={[600, 900, 1200]}
-            sizes="(min-width: 760px) 37vw, 100vw"
-          />
-          <p>{work.name}</p>
-          <p class="line">{work.line}</p>
-          <ul class="tags">
-            {work.services.map((service) => <li>{service}</li>)}
-          </ul>
-        </li>
-      ))}
-    </ul>
-  </Row>
-
-  <div class="strip" aria-label="Clients">
-    <ul>
-      {[...clients, ...clients].map((name, i) => (
-        <li aria-hidden={i >= clients.length ? 'true' : undefined}>{name}</li>
-      ))}
-    </ul>
-  </div>
-
-  <Row label="More work">
-    <ul class="list">
-      {moreWork.map((work) => (
-        <li><span>{work.name}</span><span class="detail">{work.services}</span></li>
-      ))}
-    </ul>
-  </Row>
-
   <Row label="Worked with">
-    <p class="lead">{clients.join(', ')}.</p>
+    <p class="text">{clients.join(', ')}</p>
   </Row>
 
   <Row label="Open to conversations with">
     <ol class="numbered">
-      <li>Founders building products and brands with AI at the core.</li>
-      <li>People with a contrarian idea who want to test it fast.</li>
-      <li>Designers, engineers and makers who care about craft.</li>
+      <li><sup>1</sup>Founders building products and brands with AI at the core.</li>
+      <li><sup>2</sup>People with a contrarian idea who want to test it fast.</li>
+      <li><sup>3</sup>Designers, engineers and makers who care about craft.</li>
     </ol>
+    <a class="underline" href={`mailto:${email}`}>If that sounds like you, drop me a line</a>
   </Row>
 
   <Row label="Connect" id="contact">
-    <ul class="list">
-      <li><a href={`mailto:${email}`}>Email</a><span class="detail">{email}</span></li>
-      <li><a href="https://www.teqqed.com">Teqqed ↗</a><span class="detail">teqqed.com</span></li>
+    <ul class="stack">
+      <li><a href={`mailto:${email}`}>Email</a></li>
+      <li><a href="https://www.teqqed.com">Teqqed</a></li>
     </ul>
   </Row>
 
@@ -153,21 +165,14 @@ const interests = interestIds
     <div class="clock">
       <svg viewBox="0 0 100 100" aria-hidden="true">
         {Array.from({ length: 12 }, (_, i) => (
-          <line class="tick" x1="50" y1="6" x2="50" y2={i % 3 === 0 ? 14 : 10} transform={`rotate(${i * 30} 50 50)`} />
+          <line class="tick" x1="50" y1="4" x2="50" y2={i % 3 === 0 ? 12 : 9} transform={`rotate(${i * 30} 50 50)`} />
         ))}
         <line class="hand" data-hand="h" x1="50" y1="50" x2="50" y2="28" stroke-width="2.5" />
-        <line class="hand" data-hand="m" x1="50" y1="50" x2="50" y2="16" stroke-width="1.5" />
-        <line class="hand second" data-hand="s" x1="50" y1="56" x2="50" y2="12" />
+        <line class="hand" data-hand="m" x1="50" y1="50" x2="50" y2="14" stroke-width="1.5" />
+        <line class="hand second" data-hand="s" x1="50" y1="57" x2="50" y2="10" />
       </svg>
-      <div>
-        <p>Heerenveen, NL</p>
-        <p class="dim" id="local-time"></p>
-      </div>
+      <span class="place">Heerenveen, NL</span>
     </div>
-  </Row>
-
-  <Row class="footer" label={`©${new Date().getFullYear()}`}>
-    <a class="email-me" href={`mailto:${email}`}>Email me</a>
   </Row>
 </Base>
 
@@ -181,7 +186,6 @@ const interests = interestIds
       second: '2-digit',
       hour12: false,
     })
-    const label = document.getElementById('local-time')
     const hands = Object.fromEntries(
       [...document.querySelectorAll('[data-hand]')].map((el) => [el.dataset.hand, el])
     )
@@ -190,7 +194,6 @@ const interests = interestIds
       hands.h.style.transform = `rotate(${(h % 12) * 30 + m / 2}deg)`
       hands.m.style.transform = `rotate(${m * 6}deg)`
       hands.s.style.transform = `rotate(${s * 6}deg)`
-      label.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')} local time`
     }
     tick()
     setInterval(tick, 1000)

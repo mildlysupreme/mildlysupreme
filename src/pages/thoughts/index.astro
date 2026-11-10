@@ -12,16 +12,14 @@ const posts = await getPosts()
 >
   <Row label="Thoughts">
     {posts.length === 0 ? (
-      <p class="muted">The first articles are on their way. Meanwhile, read the <a href="/manifesto" class="dim">manifesto</a>.</p>
+      <p class="muted">The first articles are on their way. Meanwhile, read the <a href="/manifesto" class="underline" style="margin-top: 0">manifesto</a>.</p>
     ) : (
-      <ul class="posts">
+      <ul class="table">
         {posts.map((post) => (
           <li>
-            <a href={`/thoughts/${post.id}`} draggable="false">
-              <span class="title">{post.data.title}</span>
-              <span class="leaders" aria-hidden="true" />
-              <time datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
-            </a>
+            <a href={`/thoughts/${post.id}`} draggable="false">{post.data.title}</a>
+            <span class="detail">{post.data.description}</span>
+            <time class="end" datetime={post.data.date.toISOString()}>{formatDate(post.data.date)}</time>
           </li>
         ))}
       </ul>
