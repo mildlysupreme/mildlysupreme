@@ -1,0 +1,200 @@
+---
+import { Image } from 'astro:assets'
+import Row from '../components/Row.astro'
+import Base from '../layouts/Base.astro'
+import { clients, email, moreWork, selectedWork, ventures } from '../data/work'
+import { formatDate, getPosts } from '../site'
+
+const posts = (await getPosts()).slice(0, 3)
+---
+
+<Base>
+  <Row class="hero" label="Tim de Vries">
+    <h1>Products, brands and AI systems, made with care.</h1>
+    <p>
+      Product-minded entrepreneur and founder of Teqqed, based in Heerenveen. I help
+      founders and teams turn AI into products, brands and systems that actually work.
+    </p>
+  </Row>
+
+  <div class="strip" aria-label="Clients">
+    <ul>
+      {[...clients, ...clients].map((name, i) => (
+        <li aria-hidden={i >= clients.length ? 'true' : undefined}>{name}</li>
+      ))}
+    </ul>
+  </div>
+
+  <div id="work">
+    {selectedWork.map((work, i) => (
+      <Row class="case">
+        <Fragment slot="label">
+          <p>{work.name}</p>
+          <p class="line">{work.line}</p>
+          <ul class="tags">
+            {work.services.map((service) => <li>{service}</li>)}
+          </ul>
+        </Fragment>
+        <Image
+          src={work.image}
+          alt={`${work.name}, work by Teqqed`}
+          widths={[800, 1200, 1600]}
+          sizes="(min-width: 760px) 75vw, 100vw"
+          loading={i === 0 ? 'eager' : 'lazy'}
+        />
+      </Row>
+    ))}
+  </div>
+
+  <Row label="More work">
+    <ul class="list">
+      {moreWork.map((work) => (
+        <li><span>{work.name}</span><span class="detail">{work.services}</span></li>
+      ))}
+    </ul>
+  </Row>
+
+  <Row label="About" id="about">
+    <div class="lead">
+      <p>
+        I'm Tim, a product-minded entrepreneur with a background in digital marketing,
+        design and building ventures from scratch.
+      </p>
+      <p>
+        Over the past decade I've grown a digital agency to over $1M in annual revenue,
+        led multiple SaaS launches from zero to exit, and built teams that blend creative
+        vision with technical execution. My work sits where user experience, growth and
+        scalable technology meet.
+      </p>
+      <p>
+        Today my focus is AI: helping companies cut through the noise and get real value
+        out of it. With Teqqed I bring together strategists, designers, engineers and AI
+        specialists to prototype, ship and scale what comes next.
+      </p>
+    </div>
+  </Row>
+
+  <Row label="Focus">
+    <div class="columns">
+      <div>
+        <h3>Strategy</h3>
+        <ul>
+          <li>Product strategy</li>
+          <li>AI strategy</li>
+          <li>Positioning</li>
+          <li>Operating models</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Design</h3>
+        <ul>
+          <li>Brand identity</li>
+          <li>Product design</li>
+          <li>Web design</li>
+          <li>Design systems</li>
+        </ul>
+      </div>
+      <div>
+        <h3>AI + Build</h3>
+        <ul>
+          <li>AI agents</li>
+          <li>Workflow automation</li>
+          <li>Web platforms</li>
+          <li>Custom software</li>
+        </ul>
+      </div>
+    </div>
+  </Row>
+
+  <Row label="Building">
+    <ul class="list">
+      {ventures.map((venture) => (
+        <li><a href={venture.url}>{venture.name} ↗</a><span class="detail">{venture.line}</span></li>
+      ))}
+    </ul>
+  </Row>
+
+  <Row label="Writing">
+    <ul class="list">
+      {posts.map((post) => (
+        <li>
+          <a href={`/thoughts/${post.id}`}>{post.data.title}</a>
+          <span class="detail">{formatDate(post.data.date)}</span>
+        </li>
+      ))}
+      <li>
+        <a href="/manifesto">Manifesto</a>
+        <span class="detail">For a more human future. What I believe about AI, craft and what's worth building.</span>
+      </li>
+      {posts.length === 0 && (
+        <li><a href="/thoughts">Thoughts</a><span class="detail">The first articles are on their way.</span></li>
+      )}
+    </ul>
+  </Row>
+
+  <Row label="Worked with">
+    <p class="lead">{clients.join(', ')}.</p>
+  </Row>
+
+  <Row label="Open to conversations with">
+    <ol class="numbered">
+      <li>Founders building products and brands with AI at the core.</li>
+      <li>Teams that want AI to change how they work, not just how they demo.</li>
+      <li>Designers, engineers and makers who care about craft.</li>
+    </ol>
+  </Row>
+
+  <Row label="Connect" id="contact">
+    <ul class="list">
+      <li><a href={`mailto:${email}`}>Email</a><span class="detail">{email}</span></li>
+      <li><a href="https://www.teqqed.com">Teqqed ↗</a><span class="detail">teqqed.com</span></li>
+    </ul>
+  </Row>
+
+  <Row label="Location">
+    <div class="clock">
+      <svg viewBox="0 0 100 100" aria-hidden="true">
+        {Array.from({ length: 12 }, (_, i) => (
+          <line class="tick" x1="50" y1="6" x2="50" y2={i % 3 === 0 ? 14 : 10} transform={`rotate(${i * 30} 50 50)`} />
+        ))}
+        <line class="hand" data-hand="h" x1="50" y1="50" x2="50" y2="28" stroke-width="2.5" />
+        <line class="hand" data-hand="m" x1="50" y1="50" x2="50" y2="16" stroke-width="1.5" />
+        <line class="hand second" data-hand="s" x1="50" y1="56" x2="50" y2="12" />
+      </svg>
+      <div>
+        <p>Heerenveen, NL</p>
+        <p class="dim" id="local-time"></p>
+      </div>
+    </div>
+  </Row>
+
+  <Row class="footer" label={`©${new Date().getFullYear()}`}>
+    <a class="email-me" href={`mailto:${email}`}>Email me</a>
+  </Row>
+</Base>
+
+<script is:inline>
+  // Local time in Heerenveen for the clock.
+  ;(() => {
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/Amsterdam',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    })
+    const label = document.getElementById('local-time')
+    const hands = Object.fromEntries(
+      [...document.querySelectorAll('[data-hand]')].map((el) => [el.dataset.hand, el])
+    )
+    const tick = () => {
+      const [h, m, s] = fmt.format(new Date()).split(':').map(Number)
+      hands.h.style.transform = `rotate(${(h % 12) * 30 + m / 2}deg)`
+      hands.m.style.transform = `rotate(${m * 6}deg)`
+      hands.s.style.transform = `rotate(${s * 6}deg)`
+      label.textContent = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')} local time`
+    }
+    tick()
+    setInterval(tick, 1000)
+  })()
+</script>

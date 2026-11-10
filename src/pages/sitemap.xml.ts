@@ -7,6 +7,7 @@ export async function GET({ site }: APIContext) {
   const urls = [
     { path: '/' },
     { path: '/thoughts' },
+    { path: '/manifesto' },
     { path: '/nice-things' },
     ...categories.map((category) => ({ path: `/nice-things/${category.id}` })),
     ...posts.map((post) => ({

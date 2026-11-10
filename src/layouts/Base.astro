@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import { email } from '../data/work'
 import { author, siteDescription, siteName } from '../site'
 
 interface Props {
@@ -16,7 +17,7 @@ const {
   publishedTime,
 } = Astro.props
 
-const pageTitle = title ? `${title} - ${author}` : siteName
+const pageTitle = title ? `${title} - ${author}` : `${author} - ${siteName}`
 const ogTitle = title ? (type === 'article' ? title : pageTitle) : author
 // Pages build to /name.html and are served at /name (cleanUrls in vercel.json).
 const path = Astro.url.pathname.replace(/(\/index)?\.html$/, '') || '/'
@@ -24,12 +25,11 @@ const canonical = new URL(path, Astro.site).href.replace(/\/$/, '')
 const ogImage = new URL('/og.png', Astro.site)
 
 const nav = [
-  { href: '/', label: 'About' },
   { href: '/thoughts', label: 'Thoughts' },
+  { href: '/manifesto', label: 'Manifesto' },
   { href: '/nice-things', label: 'Nice things' },
 ]
-const isActive = (href: string) =>
-  href === '/' ? path === '/' : path === href || path.startsWith(href + '/')
+const isActive = (href: string) => path === href || path.startsWith(href + '/')
 ---
 
 <!doctype html>
@@ -37,7 +37,7 @@ const isActive = (href: string) =>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#fcfcfc" />
+    <meta name="theme-color" content="#000000" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -62,22 +62,17 @@ const isActive = (href: string) =>
     {type === 'article' && <meta property="article:author" content={author} />}
   </head>
   <body>
-    <div class="fade-out"></div>
-    <div class="shell">
+    <header class="topbar">
+      <a href="/" class="home" draggable="false">{author}<span> · {siteName}</span></a>
       <nav>
-        <ul>
-          {nav.map(({ href, label }) => (
-            <li class:list={{ active: isActive(href) }}>
-              <a href={href} draggable="false">{label}</a>
-            </li>
-          ))}
-        </ul>
+        {nav.map(({ href, label }) => (
+          <a href={href} class:list={{ active: isActive(href) }} draggable="false">{label}</a>
+        ))}
+        <a href={`mailto:${email}`} draggable="false">Contact</a>
       </nav>
-      <main>
-        <article>
-          <slot />
-        </article>
-      </main>
-    </div>
+    </header>
+    <main>
+      <slot />
+    </main>
   </body>
 </html>
